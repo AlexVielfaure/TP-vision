@@ -36,9 +36,11 @@ def getStats(im_seg, GT):
 
     return [recall, precision, fmeasure]
 
-#%% Optical Flow
 
 
+
+#%% Load images
+    
 #Initialisation des images
 Start = 850
 End = 1600
@@ -71,6 +73,9 @@ for i in n:
     list_image_2.append(image2)
     list_GT.append(blackAndWhitetruth)
 
+
+
+#%% Optical Flow
 
 #Apply optical flow
 list_bgr = []
