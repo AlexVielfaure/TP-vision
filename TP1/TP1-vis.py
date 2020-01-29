@@ -41,18 +41,19 @@ def getStats(im_seg, GT):
 #%% Load images
     
 #Initialisation des images
-Start = 1290
-End = 1350
+Start = 800
+End = 900
 Intervalle = 3
 
-n = range(Start,End,Intervalle)
+#n = range(Start,End,Intervalle)
+
 
 list_image_1 = []
 list_image_2 = []
 list_GT = []
 
 
-for i in n:
+for i in range(Start,End):
 
     NB1 = '{:06}'.format(i)
     NB2 = '{:06}'.format(i+Intervalle)
