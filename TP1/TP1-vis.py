@@ -42,10 +42,8 @@ def getStats(im_seg, GT):
     
 #Initialisation des images
 Start = 800
-End = 900
+End = 805
 Intervalle = 3
-
-#n = range(Start,End,Intervalle)
 
 
 list_image_1 = []
@@ -73,7 +71,6 @@ for i in range(Start,End):
     list_image_1.append(image1)
     list_image_2.append(image2)
     list_GT.append(blackAndWhitetruth)
-
 
 
 #%% Optical Flow
@@ -105,9 +102,9 @@ for i in range(len(list_GT)):
     list_bgr.append(bgr)    
     list_pred.append(cv2.bitwise_not(BWimage))
     
-pointage = []
+pointage_OF = []
 for i in range(len(list_GT)):
-    pointage.append(getStats(list_pred[i],list_GT[i]))
+    pointage_OF.append(getStats(list_pred[i],list_GT[i]))
     
     
 #Plot
@@ -140,16 +137,15 @@ ax3.axes.get_xaxis().set_visible(False)
 ax3.axes.get_yaxis().set_visible(False)
 plt.imshow(list_bgr[image_nb])
 
-fig.suptitle('F-score = '+str("%.2f" % pointage[image_nb][-1]))
+fig.suptitle('F-score = '+str("%.2f" % pointage_OF[image_nb][-1]))
 
-
-point_arr = np.array(pointage)
-F_score = np.mean(point_arr[:,-1])
-print("%.3f" % F_score)
+point_arr_OF = np.array(pointage_OF)
+Score_OF = np.mean(point_arr_OF,axis=0)
+print("Recall : %.3f" % Score_OF[0])
+print("Precision : %.3f" % Score_OF[1])
+print("F-score : %.3f" % Score_OF[-1])
 
 #%% Mask-RCNN
-
-#Initialisation des images
 
 list_pred_mask = []
 
@@ -237,9 +233,9 @@ for j in range(len(list_GT)):
     list_pred_mask.append(Background)
         
   
-pointage = []
+pointage_m = []
 for i in range(len(list_GT)):
-    pointage.append(getStats(list_pred_mask[i],list_GT[i]))
+    pointage_m.append(getStats(list_pred_mask[i],list_GT[i]))
     
     
 #Plot
@@ -247,7 +243,7 @@ image_nb = 0
     
 fig = plt.figure(figsize = (10,10))
 ax4 = plt.subplot(2,2,4)
-ax4.set_title("Flot optique N&B")
+ax4.set_title("Mask-RCNN pred")
 ax4.axes.get_xaxis().set_visible(False)
 ax4.axes.get_yaxis().set_visible(False)
 plt.imshow(list_pred_mask[image_nb],cmap='Greys',  interpolation='nearest')
@@ -265,11 +261,13 @@ ax1.axes.get_yaxis().set_visible(False)
 plt.imshow(cv2.cvtColor(list_image_1[image_nb], cv2.COLOR_BGR2RGB))
 
 
-fig.suptitle('F-score = '+str("%.2f" % pointage[image_nb][-1]))
+fig.suptitle('F-score = '+str("%.2f" % pointage_m[image_nb][-1]))
 
-point_arr = np.array(pointage)
-F_score = np.mean(point_arr[:,-1])
-print("%.3f" % F_score)        
+point_arr_m = np.array(pointage_m)
+Score_m = np.mean(point_arr_m,axis=0)
+print("Recall : %.3f" % Score_m[0])
+print("Precision : %.3f" % Score_m[1])
+print("F-score : %.3f" % Score_m[-1])   
             
              
 
